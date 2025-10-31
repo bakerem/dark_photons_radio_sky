@@ -37,15 +37,15 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--fstart", type=float, default=115, help="Starting frequency in MHz"
+    "--fstart", type=float, default=None, help="Starting frequency in MHz"
 )
 
 parser.add_argument(
-    "--fstop", type=float, default=177, help="Stopping frequency in MHz"
+    "--fstop", type=float, default=None, help="Stopping frequency in MHz"
 )
 
 parser.add_argument(
-    "--n_freqs", type=int, default=20, help="Number of frequencies to generate"
+    "--n_freqs", type=int, default=None, help="Number of frequencies to generate"
 )
 
 parser.add_argument(
@@ -74,8 +74,22 @@ parser.add_argument(
     help="Whether to use Planck frequencies and beams [default = False]",
 )
 
+parser.add_argument(
+    "--ska",
+    action="store_true",
+    help="Whether to use SKA frequencies [default = False]",
+)
+
+
 args = parser.parse_args()
 njobs = args.njobs
+
+
+if args.ska and args.planck:
+    raise ValueError("Cannot use both --ska and --planck flags at the same time.")  
+
+if (args.planck or args.ska) and args.n_freqs is not None:
+    raise ValueError("Can't specify --n_freqs when using --ska flag.")
 
 output_dir = args.output_dir
 if not os.path.exists(output_dir):
@@ -99,10 +113,10 @@ if args.planck:
         ]
     )  # in GHz
     nu_centers = nu_centers * 1e3  # convert to MHz
-else:
+elif args.ska:
     nu_centers = np.array([410, 560, 770, 1050, 1430, 4940, 6740, 9190, 12530])
-    # nu_centers = np.array([140])
-    # nu_centers = np.linspace(args.fstart, args.fstop, args.n_freqs)
+else:
+    nu_centers = np.linspace(args.fstart, args.fstop, args.n_freqs) # in MHz
 # generate point source maps
 
 if args.generate_pt_srcs:
@@ -162,14 +176,13 @@ sync_maps = [
 cmbsky = pysm3.Sky(nside=nside, preset_strings=["c1"])
 cmb_maps = [
     cmbsky.get_emission(freq) for freq in nu_centers
-]  # Get free-free maps for each frequency)
-# Add the CMB monopole temperature (2.73 K) to the frequency-dependent CMB fluctuations
-cmb_maps = 2.73 + np.array(
+]  # Get cmb maps for each frequency
+cmb_maps = np.array(
     [
         cmb_maps[i].to(u.K_CMB, equivalencies=u.cmb_equivalencies(nu_centers[i]))[0, :]
         for i in range(len(nu_centers))
     ]
-)  # 2.73 K is the CMB monopole temperature; result is in K_CMB
+) 
 
 # if args.planck:
 with set_temp_cache("/scratch/"):
@@ -245,20 +258,16 @@ foregrounds = np.sum(
         ),
         axis=0,
     )
-    # beams = np.deg2rad(
-        # np.array([32.29, 27.94, 13.08, 9.66, 7.22, 4.90, 4.92, 4.67]) / 60
-    # )
-# else:
-#     foregrounds = np.sum(
-#         np.array([point_source_maps, freefree_maps, sync_maps, cmb_maps]), axis=0
-#     )
 
+if args.planck:
+    beams = np.deg2rad(
+        np.array([32.29, 27.94, 13.08, 9.66, 7.22, 4.90, 4.92, 4.67]) / 60
+    )
+else:
     # Convert FWHM from arcmin to radians: divide by 60 to get degrees, then use np.deg2rad
-beams = np.deg2rad(args.fwhm / 60) * np.ones(nu_centers.shape)
-    # nu_centers.value
-# )  # Convert FWHM from arcmin to radians
+    beams = np.deg2rad(args.fwhm / 60) * np.ones(nu_centers.shape)
 
-
+# Smooth and remove monopole
 foregrounds = np.array(
     Parallel(n_jobs=njobs)(
         delayed(hp.smoothing)(foregrounds[i, :], fwhm=beams[i])

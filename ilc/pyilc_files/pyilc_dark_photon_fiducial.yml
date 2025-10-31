@@ -4,7 +4,7 @@
 #-------------------------------------#
 
 # the directory in which all covariances, needlet coefficients, inverse covariances, maps, weights, will be saved (or are already saved):
-output_dir: '/net/scc-ca5/scratch/pyilc_pt_src_test/'
+output_dir: '/net/scc-ca5/scratch/pyilc_fiducial_SKA/'
 
 # the pref for all the files:
 output_prefix: ''
@@ -115,15 +115,15 @@ freqs_delta_ghz: [0.410, 0.560, 0.770, 1.050, 1.430, 4.940, 6.740, 9.190, 12.530
 # A list of files where you have saved the bandpasses at each frequency (only for 'ActualBandpasses') for the same order as freqs_delta_ghz
 
 # A list of files where you have saved the frequency maps at each frequency for the same order as freqs_delta_ghz
-freq_map_files: ['/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu0.410_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu0.560_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu0.770_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu1.050_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu1.430_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu4.940_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu6.740_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu9.190_thermal.fits',
-                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_pt_src_test/foregrounds_nu12.530_thermal.fits']
+freq_map_files: ['/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu0.410_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu0.560_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu0.770_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu1.050_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu1.430_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu4.940_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu6.740_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu9.190_thermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_fiducial_SKA/foregrounds_nu12.530_thermal.fits']
 
 # the field of the maps above that you want to read. Defaults to 0 if not specified
 freq_map_field: 0

@@ -1,4 +1,4 @@
-name: 21cmfastv4
+name: radio_dp
 channels:
   - conda-forge
   - nodefaults
@@ -14,7 +14,6 @@ dependencies:
   - namaster
   - texlive-core
   - pip:
-      - 21cmfast==4.0.0b1.dev99+g18571b974
       - array-api-compat==1.12.0
       - astropy==7.1.0
       - astropy-healpix==1.1.2

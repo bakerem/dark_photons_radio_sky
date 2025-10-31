@@ -10,6 +10,8 @@ Throughout the code, we save power spectra and correlation functions for a dark 
 
 The files in the `21cmfast_sim` directory are used to run and process 21cmFAST simulations. 
 
+First, 21cmFAST needs to be installed manually by cloning (this repository)[https://github.com/21cmfast/21cmFAST/tree/v4.0.0-beta] and following the installation instructions. 
+
 `make_lightconesv4.py` is used to run a 21cmFASTv4 simulation with a provided configuration file. The configuration files used in this work are `dark_phot_params.toml` and `small_dark_photon.toml`. They are the same except `small_dark_photon.toml` runs a smaller simulation and is useful for some basic testing. 
 
 Then, these files are best analyzed with the `Survey` class in `galaxy_survey.py`. This class allows the user to create a mock galaxy survey from the lightcone according to the parameters in our paper. Our fiducial survey is the *Roman* High Latitude Survey, although new surveys can easily be defined. 
@@ -45,5 +47,3 @@ Finally, notebooks and scripts to generate analytic dark photon auto-power spect
 
 The notebooks used to generate the plots in this work are provided in the `notebooks_for_paper` directory. 
 
-
-conda export --from-history --format=environment-yaml

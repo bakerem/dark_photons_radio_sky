@@ -15,7 +15,6 @@ ilc_prayer/*.npy
 *.fits
 *.dat
 job_scripts/
-*.npy
 *.o*
 **/pheno_talk*
 

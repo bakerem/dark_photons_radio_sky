@@ -56,15 +56,22 @@ Once the `Survey` class is instantiated, a galaxy catalog can be created, the da
 
 An example of using the `Survey` class to compute the expected sensitivity to dark photons is provided in the `galaxy_cross_corr.ipynb` notebook. 
 
+Note that sometimes there are numerical issues in computing the limits. This is a result of the solver system having difficulty, not actual physics. Therefore, if you compute limits and get something weird, check the settings on the solver in `find_cross_limits` and `find_auto_limits` in `galaxy_survey.py`. 
+
 ## Halo Model
 
 Code used to generate the auto-correlation of the $\gamma \to A'$ conversions in the halo model and cross-correlations between this signal and the *unWise* galaxy survey is provided in the `halo_model` directory. The most important file is `halo_gal_cross_correlation.ipynb`, which computes the auto- and cross-power spectra for any $m_A'$. The `halo_gal_cross_correlation_mccarthy.ipynb` notebook generates these power spectra to replicate the results in [McCarthy et al., 2024](https://arxiv.org/abs/2406.02546) and [Pîrvu et al., 2023](https://arxiv.org/abs/2307.15124). The python and bash scripts in the directory contain the same functions as the notebooks, but allow the user to more easily run and save the power spectra for different dark photon masses. 
+
+The file `halo_model_limits.py` computes the auto-and cross-power spectra of the post-ILC map with the galaxies described by the HOD of choice and computes limits from these power spectra and covariances. 
+There are sometimes also numerical issues in computing the limits. This is a result of the solver system having difficulty, not actual physics. Therefore, if you compute limits and get something weird, check the settings on the solver in this file (i.e. adjust the initial guess, etc.)
 
 ## ILC
 
 The code used to perform the ILC algorithm is in the `ilc` directory. `generate_foregrounds.py` is a script to generate the mock foreground maps that we use and `foreground_generation.sh` is an example bash script of how to run this file. The user can either produce mock SKA-Mid maps, mock *Planck* maps, or maps at custom frequencies. The point source generation takes a long time and generates very large files, so beware! 
 
 The subdirectory `pyilc_files` contains several example configuration files for running `pyilc`. These should be run on a cluster of some sort typically, and modified with the paths where the foreground maps are saved. There are also various masks saved in this directory, including the mask we use in this work, a 20 degree mask on the ELIAS-N1 field, and the mask used in the McCarthy et al. analysis from [here](https://users.flatironinstitute.org/~fmccarthy/dark_photon_screening_maps/) (Note: this link appears to be broken.)
+
+To run the ILC, you need to install `pyilc` and add in a new dark photon parameter following the steps in the README. Alternatively, install `pyilc` from our [fork](https://github.com/bakerem/pyilc). Use `dp` to get a map normalized to the dark photon signal at $\omega_0=1$ eV and then multiply the map by the correct conversion factor to get the normalization you want. Use `dp_mccarthy` for the normalization used in that work. Note that this also includes the $x^{-1}(1-e^{-x})$  factor that is relevant for high frequency studies, which we don't include in `dp` because it is 1 at radio frequencies. 
 
 ## Analytic Computation
 

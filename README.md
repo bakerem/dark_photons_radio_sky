@@ -44,3 +44,6 @@ Finally, notebooks and scripts to generate analytic dark photon auto-power spect
 ## Plots from arXiv:____
 
 The notebooks used to generate the plots in this work are provided in the `notebooks_for_paper` directory. 
+
+
+conda export --from-history --format=environment-yaml

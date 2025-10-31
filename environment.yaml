@@ -1,0 +1,36 @@
+name: 21cmfastv4
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python==3.12.11
+  - treecorr
+  - seaborn
+  - joblib
+  - numba
+  - healpy
+  - jax
+  - pysm3
+  - namaster
+  - texlive-core
+  - pip:
+      - 21cmfast==4.0.0b1.dev99+g18571b974
+      - array-api-compat==1.12.0
+      - astropy==7.1.0
+      - astropy-healpix==1.1.2
+      - attrs==25.3.0
+      - bidict==0.23.1
+      - camb==1.6.2
+      - cosmotile==0.2.5
+      - epspy==1.0.0
+      - flt==2025.2
+      - halomod==2.2.2
+      - hankel==1.2.2
+      - mpi4py==4.1.0
+      - numpy==1.26.4
+      - palettable==3.3.3
+      - powerbox==0.8.2
+      - pysm3==3.4.3.dev63+g75b8a5ab3
+      - scipy==1.14.1
+      - sympy==1.14.0
+      - tqdm==4.67.1

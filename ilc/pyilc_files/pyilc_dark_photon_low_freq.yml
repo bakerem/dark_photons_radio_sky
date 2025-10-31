@@ -1,0 +1,229 @@
+#-------------------------------------#
+# Info about where to save the output #
+#-------------------------------------#
+
+# the directory in which all covariances, needlet coefficients, inverse covariances, maps, weights, will be saved (or are already saved):
+output_dir: '/net/scc-ca5/scratch/pyilc_low_freq_0.1mJy/'
+
+# the prefix for all the files:
+output_prefix: ''
+
+# The suffix for all files EXCEPT covariances, inverse covariances, and needlet coefficients of input maps 
+# (this applies to saved weights and the final saved components only
+output_suffix: ''
+
+#save the ILC weights 'yes' for yes, 'no' for no
+save_weights: 'yes'
+
+# do you want to save as fits files or hdf5 files? (hdf5 files recommended, the fits option is mainly for backward-compatibility)
+save_as: 'hdf5'
+
+
+#---------------------------------------------#
+# Info about the resolution of the output map #
+#---------------------------------------------#
+
+#the Lmax for the spherical harmonic operations
+ELLMAX: 4096
+
+#The N_side of the output map (this should also be the N_side of the highest-resolution input map)
+N_side: 2048
+
+
+#---------------------------------------#
+# Info about the type of ILC to perform #
+#---------------------------------------#
+
+# the type of wavelets. 'GaussianNeedlets' for NILC with Gaussian needlets; 'TopHatHarmonic' for HILC; 'CosineNeedlets for cosine needlets'
+wavelet_type: 'CosineNeedlets'
+
+
+# the number of wavelet scales (only for NILC)
+N_scales: 13
+
+#The FWHM of the Gaussian needlet scales (only for NILC with Gaussian needlets)
+# GN_FWHM_arcmin: [300., 120., 60., 30., 15., 10., 7.5, 5]
+
+# the peaks of the Cosine needlets (only for NILC with cosine needlets)
+ellpeaks: [100, 200, 300, 400, 600, 800, 1000, 1250, 1400, 1800, 2200, 4097]
+
+ellmin: 0 
+# realspacefilter size: either use ILC_bias_tol or FWHM_pix
+
+# The allowed tolerance for ILC bias. This will be used to set the size of the real-space 
+# Gaussian filters in the NILC
+ILC_bias_tol: 0.01
+
+# a small ILC_bias_tol leads to very large real-space filters which may be larger than the sphere
+# in this case there are simply not enough modes to meet the ILC_bias_tol and the code stops
+# you can override this by setting override_ILCbiastol_threshold: 'True' (not recommended).
+# by default this is false if not specified otherwise
+override_ILCbiastol_threshold: 'False'
+
+# the size of the real-space filters in arcminutes. This is instead of ILC_bias_tol
+# FWHM_pix: [1,1,1,1,1,1,1]
+
+#The Delta_ell (binsize) for linear bins for the HILC
+# BinSize: 20
+
+# The component to preserve. Can be any of  ['CMB','kSZ','tSZ','rSZ','mu','CIB', 'CIB_dbeta','CIB_dT']
+ILC_preserved_comp: 'dp'
+
+# The number of components to deproject. This can either be a number or a list of numbers with N_scales elements, with how many components are deprojected at each scale
+N_deproj: 0
+#  N_deproj: [1,1,1,0,0,0,0]
+
+# A list of components to deproject (every element should be in ['CMB','kSZ','tSZ','rSZ','mu','CIB', 'CIB_dbeta','CIB_dT']. This can either be a list, or a list of lists, one corresponding to each scale
+ILC_deproj_comps: []
+# ILC_deproj_comps: [['tSZ'],['tSZ'],['tSZ'],[],[],[],[]]
+
+# resp_tol sets the tolerance for the checks that the responses to indeed sum to 1 (for the preserved component) of 0 (for the deprojected components).
+# if unspecified, defaults to 1e-3
+resp_tol: 0.001
+
+# Whether or not to perform a cross-ILC, ie to calculate the covariances from split maps (thus not including instrumental noise).
+# If this is unspecified, a standard ILC will be performed.
+# If this is one of ['true','yes','y'] (captalized or uncapitalized), a cross_ILC will be performed.
+cross_ILC: 'false'
+
+# Do we want to compute the weights from the inv covmat (with np.linalg.inv) or from the covmat (with np.linalg.solve)? Defaults to 
+# invcovmat unless weights_from_covmat is switched to 'True' or 'yes'.
+weights_from_covmat: 'False'
+
+work_in_healpix: "True"
+# Do we want to apply a mask to some region of the sky before computing the covariances? If so, 
+# put it in here, in a list of len (2), where the first entry is a string pointing to the .fits file
+# (which should be a binary mask as it will have to be downgraded to smaller N_side on large scales)
+# and the second entry indicates which field of the fits file to read.
+# if this is not specified, the default is no mask.
+mask_before_covariance_computation: ['/usr3/graduate/ebaker/dark_photon_constraints/ilc/pyilc_files/subaru_mask_20deg.fits',0]
+# mask_before_covariance_computation: [/usr3/graduate/ebaker/dark_photon_constraints/ilc/HFI_Mask_GalPlane-apo0_2048_R2.00.fits, 2]
+
+#--------------------------------------------#
+# Info about the input single-frequency maps #
+#--------------------------------------------#
+
+#The number of frequency channels
+N_freqs: 20
+
+#The type of bandpass: can be 'DeltaBandpasses' or 'ActualBandpasses'
+bandpass_type: 'DeltaBandpasses'
+
+# The frequency channels central frequencie (in GHz). Note that these should be in order of lowest-res to highest-res, NOT necessarily low-freq to high-freq
+freqs_delta_ghz: [115.        , 118.26315789, 121.52631579, 124.78947368,
+                  128.05263158, 131.31578947, 134.57894737, 137.84210526,
+                  141.10526316, 144.36842105, 147.63157895, 150.89473684,
+                  154.15789474, 157.42105263, 160.68421053, 163.94736842,
+                  167.21052632, 170.47368421, 173.73684211, 177.        ]  
+
+# A list of files where you have saved the bandpasses at each frequency (only for 'ActualBandpasses') for the same order as freqs_delta_ghz
+
+# A list of files where you have saved the frequency maps at each frequency for the same order as freqs_delta_ghz
+freq_map_files: ['/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.115_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.118_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.122_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.125_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.128_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.131_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.135_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.138_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.141_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.144_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.148_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.151_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.154_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.157_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.161_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.164_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.167_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.170_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.174_LOFARthermal.fits',
+                 '/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_foregrounds_0.1mJy_low_freq/foregrounds_nu0.177_LOFARthermal.fits',]
+
+# the field of the maps above that you want to read. Defaults to 0 if not specified
+freq_map_field: 0
+
+# A list of files where you have saved the first split of the frequency maps for the same order as freqs_delta_ghz (only for a cross-ILC)
+# freq_map_files_s1: []
+# A list of files where you have saved the second split of the frequency maps for the same order as freqs_delta_ghz (only for a cross-ILC)
+# freq_map_files_s2: []
+
+# The filename of a map you want to subtract from all of the input maps (eg kinematic dipole):
+# defaults to None if not input
+# map_to_subtract: 'kinematic_dipole.fits'
+
+# A list of filenames you want to subtract from the different input maps (eg ikinematic dipole for some of them)
+# this list needs to be of length N_freq. For maps that you don't want to subtract anything from, put in the string 'None'
+# this defaults to None if not input
+# maps_to_subtract: []
+
+# If you have already run the code, it will have saved the needlet coefficients of all the maps. We can skip the check that they already exist by 
+# optionally telling the code they already exist
+wavelet_maps_exist: 'false'
+
+# A list of files where you have saved the frequency maps to apply WEIGHTS to (for weights calculated using the covariance of the maps in freq_map_files)
+# The weights will not be calculated from these maps, just applied to them
+# The weights will not be calculated from these maps, just applied to them
+# Make sure to change the output_suffix if you use this option as it will otherwise be saved with the same filename as the standard maps
+# maps_to_apply_weights: []
+
+# The beam type for deconvolving the input maps; can be 'Gaussians' or '1DBeams'
+beam_type: 'Gaussians'
+
+# a list of FWHM (in arcmins) of the Gaussian beam used for each frequency (only if beam_type is 'Gaussians') for the same order as freqs_delta_ghz
+beam_FWHM_arcmin: [0.5, 0.5, 0.5, 0.5, 
+                   0.5, 0.5, 0.5, 0.5, 
+                   0.5, 0.5, 0.5, 0.5, 
+                   0.5, 0.5, 0.5, 0.5, 
+                   0.5, 0.5, 0.5, 0.5, 
+                   ] #update with whatever beam FWHM was used in the sim map construction; note that ordering should always be from lowest-res to highest-res maps (here and in the lists of maps, freqs, etc above)
+
+# a list of files containing the 1-D beam profiles to deconvolve from each map (only if beam_type is '1Dbeams') for the same order as freqs_delta_ghz
+# beam_files: []
+
+#  wavelet_beam_criterion sets a number which is related to how much smaller than the needlet filters the beam of a certain frequency channel should be
+# in order to be dropped from the NILC in this needlet filter. If unspecified, defaults to 1e-3
+wavelet_beam_criterion: 0.001
+
+# override_N_freqs_to_use OVERRIDES wavleet_beam_criterion by explicitly specifying how many frequencies to use in each needlet scale in the NILC
+# it should be a list of ints of length N_scales
+# at scale j, the N highest-resolution frequency maps will be used in the ILC where N= override_N_freqs_to_use[j]
+# (recall the input frequency maps must be inputed in order of increasing resolution so this is equivalent to the N last maps in the list)
+# override_N_freqs_to_use: [2,2,2,2,2,2,2]
+
+#---------------------------#
+# Information about display #
+#---------------------------#
+
+# if you want to print information about the timing of each computation
+# set this to true. Default is false
+print_timing: 'true'
+
+#--------------------------------#
+# Information about computations #
+#--------------------------------#
+
+#if you want to paralleze the linear algebra with numba, set to true
+#otherwise, set to false for standard numpy linear algebra
+#default is true
+use_numba: 'true'
+
+# if you want to print information about the timing of each computation
+# set this to true. Default is false
+print_timing: 'true'
+
+#----------------------------------------------------#
+# Info about maps to cross-correlate the output with #
+#----------------------------------------------------#
+
+# How many maps to cross-correlate with
+# N_maps_xcorr: 1
+
+# A list of files where these maps are saved
+# maps_xcorr_files: ['/moto/hill/users/kms2320/websky_maps/cmb_lensed_nside1024_K.fits']
+
+# A list of masks to apply before cross-correlating. If this is unspecified, no mask will be applied; 
+# otherwise it should be the same length as maps_xcorr_files and for the same order
+# masks_xcorr_files:
+
+

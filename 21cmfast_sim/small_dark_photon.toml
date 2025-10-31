@@ -1,0 +1,50 @@
+# Run options modified from latest-dhalos toml file
+# this includes all of the astro parameters from arXiv:2502.20447, arXiv: arXiv:2504.17254 
+# except alpha_star, which is the default value. This seems like a typo in their papers tbh.
+# this runs a smaller lightcone than the other file and is useful for debugging. 
+[CosmoParams]
+
+[SimulationOptions]
+HII_DIM                  = 48
+BOX_LEN                  = 64
+N_THREADS                = 1
+CORR_STAR                = 0.5
+CORR_SFR                 = 0.1
+CORR_LX                  = 0.5
+
+
+[MatterOptions]
+USE_HALO_FIELD          = true
+HALO_STOCHASTICITY      = true
+USE_RELATIVE_VELOCITIES = true
+USE_FFTW_WISDOM         = true
+KEEP_3D_VELOCITIES      = true
+
+
+
+[AstroParams]
+F_STAR10         = -1.30
+ALPHA_STAR       = 0.5 
+UPPER_STELLAR_TURNOVER_INDEX = -0.61
+UPPER_STELLAR_TURNOVER_MASS  = 11.447
+SIGMA_STAR       = 0.3
+t_STAR           = 0.5
+SIGMA_SFR_LIM    = 0.19
+SIGMA_SFR_INDEX  = -0.12
+NU_X_THRESH      = 500
+X_RAY_SPEC_INDEX = 1.0
+L_X              = 40.5
+SIGMA_LX         = 0.5
+F_ESC10          = -1.0
+ALPHA_ESC        = -0.5 
+POP2_ION         = 5000
+R_BUBBLE_MAX     = 50
+
+[AstroOptions]
+USE_MINI_HALOS             = false
+USE_TS_FLUCT               = true 
+INHOMO_RECO                = true
+APPLY_RSDS                 = false
+USE_MASS_DEPENDENT_ZETA    = true
+USE_UPPER_STELLAR_TURNOVER = true
+

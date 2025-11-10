@@ -358,7 +358,7 @@ def compute_Cls(m_Ap):
 
     @np.vectorize
     def w(theta, lmax=10_000):
-        l_ary = np.arange(0, lmax, dtype=int)
+        l_ary = np.arange(1, lmax, dtype=int)
 
         return np.sum(
             [

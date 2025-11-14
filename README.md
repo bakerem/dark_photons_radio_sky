@@ -1,6 +1,6 @@
 # 21cm_dark_photon_constraints
 
-The code in this repository was used in (arXiv:2511.09630)[https://arxiv.org/abs/2511.09630] and (arXiv:2511.09637)[https://arxiv.org/abs/2511.09637] to compute the sensitivity of radio experiments to $\gamma \to A'$ conversions. 
+The code in this repository was used in [arXiv:2511.09630](https://arxiv.org/abs/2511.09630) and [arXiv:2511.09637](https://arxiv.org/abs/2511.09637) to compute the sensitivity of radio experiments to $\gamma \to A'$ conversions. 
 
 The code can be broken down into a few different pieces, each of which is relevant for a different part of the analysis.
 
@@ -10,7 +10,7 @@ Throughout the code, we save power spectra and correlation functions for a dark 
 
 The files in the `21cmfast_sim` directory are used to run and process 21cmFAST simulations.
 
-First, 21cmFAST needs to be installed manually by cloning (this repository)[https://github.com/21cmfast/21cmFAST/tree/18571b974611371c2fe93158869bb1c2ace9ddeb] and following the installation instructions. You can also use a different (more recent) version but some minor things may break in the interface with 21cmFAST.
+First, 21cmFAST needs to be installed manually by cloning [this repository](https://github.com/21cmfast/21cmFAST/tree/18571b974611371c2fe93158869bb1c2ace9ddeb) and following the installation instructions. You can also use a different (more recent) version but some minor things may break in the interface with 21cmFAST.
 
 `make_lightconesv4.py` is used to run a 21cmFASTv4 simulation with a provided configuration file. The configuration files used in this work are `dark_phot_params.toml` and `small_dark_photon.toml`. They are the same except `small_dark_photon.toml` runs a smaller simulation and is useful for some basic testing. 
 

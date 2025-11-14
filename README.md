@@ -1,6 +1,6 @@
 # 21cm_dark_photon_constraints
 
-The code in this repository was used in arXiv:_____ to compute the sensitivity of radio experiments to $\gamma \to A'$ conversions. 
+The code in this repository was used in (arXiv:2511.09630)[https://arxiv.org/abs/2511.09630] and (arXiv:2511.09637)[https://arxiv.org/abs/2511.09637] to compute the sensitivity of radio experiments to $\gamma \to A'$ conversions. 
 
 The code can be broken down into a few different pieces, each of which is relevant for a different part of the analysis.
 
@@ -43,7 +43,7 @@ To run the ILC, you need to install `pyilc` and add in a new dark photon paramet
 
 Finally, notebooks and scripts to generate analytic dark photon auto-power spectra and correlation functions are provided in the `analytics` directory. These work pretty much the same way as the halo model code. This code is adapted heavily from [this repository](https://github.com/smsharma/dark-photons-perturbations/). 
 
-## Plots from arXiv:____
+## Plots from Papers
 
 The notebooks used to generate the plots in this work are provided in the `notebooks_for_paper` directory. 
 

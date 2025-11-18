@@ -1,4 +1,4 @@
-# 21cm_dark_photon_constraints
+# Dark Photons in the Radio Sky
 
 The code in this repository was used in [arXiv:2511.09630](https://arxiv.org/abs/2511.09630) and [arXiv:2511.09637](https://arxiv.org/abs/2511.09637) to compute the sensitivity of radio experiments to $\gamma \to A'$ conversions. 
 

@@ -4,7 +4,9 @@ The code in this repository was used in [arXiv:2511.09630](https://arxiv.org/abs
 
 The code can be broken down into a few different pieces, each of which is relevant for a different part of the analysis.
 
-Throughout the code, we save power spectra and correlation functions for a dark photon signal with default $\epsilon=1$ and $\omega_0 = 1$ eV and do not include an factors of $T_{\gamma,0}$. To normalize to the observed signal, multiply by the appropriate power of $T_{\gamma, 0}$ and $\omega_0$ in eV. For auto-correlation signals, the 
+Throughout the code, we save power spectra and correlation functions for a dark photon signal with default $\epsilon=1$ and $\omega_0 = 1$ eV and do not include an factors of $T_{\gamma,0}$. To normalize to the observed signal, multiply by the appropriate power of $T_{\gamma, 0}$ and $\omega_0$ in eV. For auto-correlation signals, the correct factor is $T_{\gamma,0}^2 \omega_0^2$ and for cross-correlation signals it is 
+$T_{\gamma,0} \omega_0$.
+
 
 ## 21cmFAST Simulations
 

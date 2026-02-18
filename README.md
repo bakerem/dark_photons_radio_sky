@@ -1,16 +1,18 @@
-# 21cm_dark_photon_constraints
+# Dark Photons in the Radio Sky
 
-The code in this repository was used in arXiv:_____ to compute the sensitivity of radio experiments to $\gamma \to A'$ conversions. 
+The code in this repository was used in [arXiv:2511.09630](https://arxiv.org/abs/2511.09630) and [arXiv:2511.09637](https://arxiv.org/abs/2511.09637) to compute the sensitivity of radio experiments to $\gamma \to A'$ conversions. 
 
 The code can be broken down into a few different pieces, each of which is relevant for a different part of the analysis.
 
-Throughout the code, we save power spectra and correlation functions for a dark photon signal with default $\epsilon=1$ and $\omega_0 = 1$ eV and do not include an factors of $T_{\gamma,0}$. To normalize to the observed signal, multiply by the appropriate power of $T_{\gamma, 0}$ and $\omega_0$ in eV. For auto-correlation signals, the 
+Throughout the code, we save power spectra and correlation functions for a dark photon signal with default $\epsilon=1$ and $\omega_0 = 1$ eV and do not include an factors of $T_{\gamma,0}$. To normalize to the observed signal, multiply by the appropriate power of $T_{\gamma, 0}$ and $\omega_0$ in eV. For auto-correlation signals, the correct factor is $T_{\gamma,0}^2 \omega_0^2$ and for cross-correlation signals it is 
+$T_{\gamma,0} \omega_0$.
+
 
 ## 21cmFAST Simulations
 
 The files in the `21cmfast_sim` directory are used to run and process 21cmFAST simulations.
 
-First, 21cmFAST needs to be installed manually by cloning (this repository)[https://github.com/21cmfast/21cmFAST/tree/18571b974611371c2fe93158869bb1c2ace9ddeb] and following the installation instructions. You can also use a different (more recent) version but some minor things may break in the interface with 21cmFAST.
+First, 21cmFAST needs to be installed manually by cloning [this repository](https://github.com/21cmfast/21cmFAST/tree/18571b974611371c2fe93158869bb1c2ace9ddeb) and following the installation instructions. You can also use a different (more recent) version but some minor things may break in the interface with 21cmFAST.
 
 `make_lightconesv4.py` is used to run a 21cmFASTv4 simulation with a provided configuration file. The configuration files used in this work are `dark_phot_params.toml` and `small_dark_photon.toml`. They are the same except `small_dark_photon.toml` runs a smaller simulation and is useful for some basic testing. 
 
@@ -43,7 +45,7 @@ To run the ILC, you need to install `pyilc` and add in a new dark photon paramet
 
 Finally, notebooks and scripts to generate analytic dark photon auto-power spectra and correlation functions are provided in the `analytics` directory. These work pretty much the same way as the halo model code. This code is adapted heavily from [this repository](https://github.com/smsharma/dark-photons-perturbations/). 
 
-## Plots from arXiv:____
+## Plots from Papers
 
 The notebooks used to generate the plots in this work are provided in the `notebooks_for_paper` directory. 
 

@@ -77,7 +77,6 @@ else:
     clean_auto_Cls = np.load(f"{output_dir}/clean_auto_Cls_binning{args.bin_size}.npy")
     # clean_nmt_map = np.load(f"{output_dir}/clean_nmt_map_binning{args.bin_size}.npy", allow_pickle=True)
 
-# quit()
 loaded_ls = np.concatenate(
     [
         [0],
@@ -345,20 +344,15 @@ def compute_halo_limits(mA):
     )
 
 
-def main():
-    """Main execution: compute limits over mass range and save results."""
-    results = []
-    mA_list = np.geomspace(1e-13, 1e-11, 25)
-    print("Covariance matrices computed. Computing limits...")
-    for mA in tqdm(mA_list, desc="Computing limits"):
-        auto_limit, cross_limit = compute_halo_limits(mA)
-        results.append((mA, auto_limit, cross_limit))
-    np.save(
-        f"{args.output_dir}/limits_binning{args.bin_size}_{args.model}.npy", results
-    )
-    print(f"Results saved to {args.output_dir}/limits_binning{args.bin_size}_{args.model}.npy")
-
-
-if __name__ == "__main__":
-    main()
+"""Main execution: compute limits over mass range and save results."""
+results = []
+mA_list = np.geomspace(1e-13, 1e-11, 25)
+print("Covariance matrices computed. Computing limits...")
+for mA in tqdm(mA_list, desc="Computing limits"):
+    auto_limit, cross_limit = compute_halo_limits(mA)
+    results.append((mA, auto_limit, cross_limit))
+np.save(
+    f"{args.output_dir}/limits_binning{args.bin_size}_{args.model}.npy", results
+)
+print(f"Results saved to {args.output_dir}/limits_binning{args.bin_size}_{args.model}.npy")
 

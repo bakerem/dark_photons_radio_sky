@@ -11,11 +11,11 @@
 
 conda activate 21cmfastv4
 
-TITLE=pt_src_test
+TITLE=Planck_unwise
 nside=2048 # nside for the HEALPix map
 max_flux=0.0001 # maximum flux in Jy for the point sources
 njobs=4 # number of jobs to run in parallel
-gen_pt_srcs=true # whether to generate point sources or not
+gen_pt_srcs=false # whether to generate point sources or not
 FWHM=0.5 # FWHM of the Gaussian smoothing in arcmin
 
 # make directory to store results
@@ -24,8 +24,8 @@ cache_dir=/net/scc-ca5/scratch/ebaker_results/
 mkdir ${results_dir}
 if [ "${gen_pt_srcs}" == true ]; then
     echo "Generating foregrounds with point sources..."
-    python /usr3/graduate/ebaker/dark_photon_constraints/ilc/generate_foregrounds.py --output_dir=${results_dir} --nside=${nside} --max_flux=${max_flux} --njobs=${njobs} --fwhm=${FWHM} --generate_pt_srcs --ska
+    python /projectnb/darkcosmo/dark_photon_project/dark_photons_radio_sky/ilc/generate_foregrounds.py --output_dir=${results_dir} --nside=${nside} --max_flux=${max_flux} --njobs=${njobs} --fwhm=${FWHM} --generate_pt_srcs --planck
 else
     echo "Generating foregrounds without point sources..."
-    python /usr3/graduate/ebaker/dark_photon_constraints/ilc/generate_foregrounds.py --output_dir=${results_dir} --nside=${nside} --max_flux=${max_flux} --njobs=${njobs} --fwhm=${FWHM} --ska
+    python /projectnb/darkcosmo/dark_photon_project/dark_photons_radio_sky/ilc/generate_foregrounds.py --output_dir=${results_dir} --nside=${nside} --max_flux=${max_flux} --njobs=${njobs} --fwhm=${FWHM} --planck
 fi

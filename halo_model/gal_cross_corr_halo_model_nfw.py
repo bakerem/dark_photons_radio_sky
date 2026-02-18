@@ -50,6 +50,8 @@ Notes:
 """
 import pickle
 
+import matplotlib_inline
+
 sys.path.append("../")
 
 import astropy.units as un
@@ -183,72 +185,12 @@ rs = np.linspace(1e-12, 1.1 * rvirs, int(1e4))  # Mpc
 rs = np.moveaxis(rs, 0, -1)
 
 
-def rho_gas(r, z, m, R200, use_shock=False):
-    x = r / R200
-    p = {
-        "rho0": {
-            "a": 4e3,
-            "b": 0.29,
-            "c": -0.66,
-        },
-        "alpha": {
-            "a": 0.88,
-            "b": -0.03,
-            "c": 0.19,
-        },
-        "beta": {
-            "a": 3.83,
-            "b": 0.04,
-            "c": -0.025,
-        },
-    }
-    if use_shock:
-        p = {
-            "rho0": {
-                "a": 1.9e4,
-                "b": 0.09,
-                "c": -0.95,
-            },
-            "alpha": {
-                "a": 0.70,
-                "b": -0.0017,
-                "c": 0.27,
-            },
-            "beta": {
-                "a": 4.43,
-                "b": 0.005,
-                "c": 0.037,
-            }
-        }
-    gamma = -0.2
-    xc = 0.5
-    rho0 = (
-        p["rho0"]["a"]
-        * (m[..., None] / 10**14) ** p["rho0"]["b"]
-        * (1 + z[:, None, None]) ** p["rho0"]["c"]
-    )
-    alpha = (
-        p["alpha"]["a"]
-        * (m[..., None] / 10**14) ** p["alpha"]["b"]
-        * (1 + z[:, None, None]) ** p["alpha"]["c"]
-    )
-    beta = (
-        p["beta"]["a"]
-        * (m[..., None] / 10**14) ** p["beta"]["b"]
-        * (1 + z[:, None, None]) ** p["beta"]["c"]
-    )
-    return (
-        Planck18.Ob0
-        / Planck18.Om0
-        * rhocritz[:, None, None]
-        * rho0
-        * (x / xc) ** gamma
-        * (1 + (x / xc) ** alpha) ** (-(beta + gamma) / alpha)
-    )
-
+rho_halo = ms[None, :] / (4 / 3 * np.pi * rvirs**3)
+ANFW     = np.log(1 + cs) - cs / (1 + cs)
+x        = rs / rvirs[..., None]
+rho_gases = Planck18.Ob0 / Planck18.Om0 * rho_halo[..., None] / (3 * ANFW[..., None] * x * (cs[..., None]**-1 + x)**2)
 
 chis = Planck18.comoving_distance(zs).to(un.Mpc).value  # Mpc
-rho_gases = rho_gas(rs, zs, m200s, R200s[..., None], use_shock=False)
 mgamma2 = kappa * rho_gases
 Plin_z1_z2 = np.sqrt(lin_power[None, :] * lin_power[:, None])
 
@@ -301,7 +243,7 @@ HOD_model = {
     },
 }
 
-model = "K23"  # Change to "K23" for the K23 model
+model = "K22"  # Change to "K23" for the K23 model
 
 
 def Nc(m):
@@ -406,7 +348,7 @@ hls = np.array([hl(l) for l in tqdm(ls)])
 
 def get_Cls(mA):
     # function to find nearest value in array to given value
-    if os.path.exists(f"{output_dir}/Cl_gP_mA{mA:.3e}_model{model}.npy"):
+    if os.path.exists(f"{output_dir}/Cl_gP_mA{mA:.3e}_model{model}_nfw.npy"):
         return
     drho_drs = np.empty([len(zs), len(ms)])  # these match McCarthy code seemingly
     r_convs = np.empty([len(zs), len(ms)])  # so do these, gas profile is working right.
@@ -560,7 +502,7 @@ def get_Cls(mA):
     auto_Cls = np.array(
         [Cl_1halo_pirvu(l, theta_max_array) + Cl_2halo(l, theta_max_array) for l in ls]
     )
-    np.save(f"{output_dir}/Cl_PP_mA{mA:.3e}.npy", auto_Cls)
+    np.save(f"{output_dir}/Cl_PP_mA{mA:.3e}_nfw.npy", auto_Cls)
 
     def CgP_1h(l):
         return np.sqrt(4 * np.pi / (2 * l + 1)) * simpson(
@@ -594,7 +536,7 @@ def get_Cls(mA):
     Cl_gP_1hs = np.array([CgP_1h(l) for l in ls])
     Cl_gP_2hs = np.array([CgP_2h_limber(l) for l in ls])
 
-    np.save(f"{output_dir}/Cl_gP_mA{mA:.3e}_model{model}", Cl_gP_1hs + Cl_gP_2hs)
+    np.save(f"{output_dir}/Cl_gP_mA{mA:.3e}_model{model}_nfw.npy", Cl_gP_1hs + Cl_gP_2hs)
     return None
 
 

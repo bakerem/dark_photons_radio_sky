@@ -7,4 +7,4 @@
 #$ -j y
 conda activate 21cmfastv4
 
-python /usr3/graduate/ebaker/dark_photon_constraints/halo_model/gal_cross_corr_correct.py
+python /projectnb/darkcosmo/dark_photon_project/dark_photons_radio_sky/halo_model/gal_cross_corr_halo_model.py

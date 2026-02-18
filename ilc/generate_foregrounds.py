@@ -109,7 +109,7 @@ if args.planck:
             217,
             353,
             545,
-            857,
+            # 857,
         ]
     )  # in GHz
     nu_centers = nu_centers * 1e3  # convert to MHz
@@ -145,6 +145,12 @@ if args.generate_pt_srcs:
         )
 else:
     point_source_maps = np.zeros((nu_centers.shape[0], hp.nside2npix(nside)))
+    gal_map = hp.read_map("/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/halo_data/correct_virial_mass/smooth_gal_map_K22.fits")
+    mean_radio_brightnesses = np.mean(np.load("/projectnb/darkcosmo/dark_photon_project/21cmfast_cache/pyilc_Planck/Tb_nu_map2048.npy"), axis=0)
+    rng = np.random.default_rng()
+    spectral_indices = rng.normal(loc=2.681, scale=0.5, size=len(gal_map))
+    corr_radio_map0 = gal_map * mean_radio_brightnesses[4] + mean_radio_brightnesses[4] # K_CMB
+    point_source_maps = np.array([corr_radio_map0 * (f / nu_centers[4])**(-spectral_indices) for f in nu_centers])
     np.save(
         f"{output_dir}/nu_glob.npy", nu_centers * 1e6
     )  # Save nu_centers for later use
@@ -282,7 +288,7 @@ foregrounds = np.array(
 
 for i, nu in enumerate(nu_centers):
     hp.write_map(
-        f"{output_dir}/foregrounds_{nu.value/1000:.3f}.fits", foregrounds[i]
+        f"{output_dir}/foregrounds_{nu.value/1000:.3f}_unwise_pt_src.fits", foregrounds[i]
     )  # saved in K since this is what's needed for pyilc
 
 
@@ -328,12 +334,12 @@ else:
 maps_w_thermal = foregrounds + thermal_map
 
 np.save(
-    f"{output_dir}/foregrounds_with_thermal_mK.npy", maps_w_thermal * 1000
+    f"{output_dir}/foregrounds_with_thermal_mK_unwise_pt_src.npy", maps_w_thermal * 1000
 )  # save in mK
 
 for i, nu in enumerate(nu_centers):
     hp.write_map(
-        f"{output_dir}/foregrounds_nu{nu.value/1000:.3f}_thermal.fits",
+        f"{output_dir}/foregrounds_nu{nu.value/1000:.3f}_thermal_unwise_pt_src.fits",
         maps_w_thermal[i],
         overwrite=True,
     )

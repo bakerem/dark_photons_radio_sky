@@ -17,4 +17,6 @@ ilc_prayer/*.npy
 job_scripts/
 *.o*
 **/pheno_talk*
+poster_figures/
+ilc/pres_ilc_images/
 
